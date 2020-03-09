@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WheatherApp</string>
+    <string name="globe">globe</string>
+    <string name="user">user</string>
+    <string name="map">map</string>
+    <string name="city">Bishkek</string>
+    <string name="temp">+10 °C</string>
+    <string name="temp_desc">ясно</string>
+</resources>
