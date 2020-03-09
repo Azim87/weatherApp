@@ -31,6 +31,18 @@ android {
         jvmTarget = "1.8"
     }
 
+    flavorDimensions "mode"
+
+    productFlavors {
+        weatherApp {
+            applicationId "com.example.wheatherapp"
+            versionCode 21
+            versionName "1"
+            buildConfigField "String", "BASE_URL", "\"http://api.openweathermap.org\""
+            buildConfigField "String", "API_KEY", "\"4bb7471659f7cdb381168351ef966d4f\""
+            dimension "mode"
+        }
+    }
 }
 
 dependencies {

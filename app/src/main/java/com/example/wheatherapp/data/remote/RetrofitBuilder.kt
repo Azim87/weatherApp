@@ -1,19 +1,16 @@
 package com.example.wheatherapp.data.remote
 
+import com.example.wheatherapp.BuildConfig.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
-    companion object {
-        private const val BASE_URL = "http://api.openweathermap.org/"
-    }
-
     fun buildRetrofit(): WeatherApiService = Retrofit.Builder()
-        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
+        .baseUrl(BASE_URL)
         .build()
         .create(WeatherApiService::class.java)
 

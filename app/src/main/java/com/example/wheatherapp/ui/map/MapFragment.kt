@@ -34,7 +34,7 @@ class MapFragment : BaseFragment(),
         fragmentManager?.beginTransaction()?.add(R.id.google_map, mapFragment)?.commit()
         mapFragment.getMapAsync(this)
         globe_fab.setOnClickListener {
-            Show.message(context!!, "hello")
+            Show.message(context!!, "click")
         }
     }
 
@@ -63,7 +63,6 @@ class MapFragment : BaseFragment(),
         fragmentManager?.beginTransaction()
             ?.setCustomAnimations(R.anim.anim_up, R.anim.anim_down)
             ?.remove(PopUpFragment())
-            ?.addToBackStack(null)
             ?.commit()
     }
 }
