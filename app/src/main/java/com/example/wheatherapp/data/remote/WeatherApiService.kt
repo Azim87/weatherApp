@@ -12,7 +12,8 @@ interface WeatherApiService {
      fun getWeather(
         @Query("lon") longitude: Double,
         @Query("lat") latitude: Double,
-        @Query("metric") metric: String,
+        @Query("units") metric: String,
+        @Query("lang") language: String,
         @Query("appid") appKey: String
     ): Call<MainWeatherModel>
 

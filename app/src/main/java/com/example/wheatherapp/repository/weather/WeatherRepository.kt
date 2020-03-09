@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.wheatherapp.BuildConfig
 import com.example.wheatherapp.base.BaseRetrofitCallback
 import com.example.wheatherapp.data.remote.RetrofitClient
-import com.example.wheatherapp.model.city.CityModel
 
 class WeatherRepository(private val retrofitClient: RetrofitClient) {
 
@@ -17,11 +16,10 @@ class WeatherRepository(private val retrofitClient: RetrofitClient) {
     fun getWeather(lon: Double, lat: Double, metric: String): MutableLiveData<MainWeatherModel> {
         retrofitClient
             .buildRetrofit(BASE_URL)
-            .getWeather(lon, lat, metric, appKey
+            .getWeather(lon, lat, metric, "ru", appKey
         ).enqueue(object : BaseRetrofitCallback<MainWeatherModel>() {
             override fun onSuccess(results: MainWeatherModel?) {
                 data.value = results
-                Log.d("ololo", "weather data ${data.value}")
             }
 
             override fun onFailure(e: Exception?) {

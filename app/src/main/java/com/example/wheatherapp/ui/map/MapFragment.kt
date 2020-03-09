@@ -1,7 +1,10 @@
 package com.example.wheatherapp.ui.map
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.example.wheatherapp.R
 import com.example.wheatherapp.base.BaseFragment
 import com.example.wheatherapp.ui.popup.PopUpFragment
@@ -10,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.android.synthetic.main.fragment_popup.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapFragment : BaseFragment(),
@@ -38,6 +42,7 @@ class MapFragment : BaseFragment(),
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.setOnMapLongClickListener {
@@ -49,10 +54,25 @@ class MapFragment : BaseFragment(),
                 ?.commit()
 
             mapViewModel.getRemoteWeatherData(
-                139.01,
-                35.02,
-                "metric"
+                74.5900000,
+                42.8700000,
+                "Metric"
             )
+
+            mapViewModel.weatherData.observe(this, Observer { weather ->
+                val iconcode = weather.weather[0].icon;
+                val iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+
+                Glide.with(temp_icon.context).load(iconurl).into(temp_icon)
+
+                if(city_title == null) city_title.text = "нет такого места"
+                else city_title.text = weather.name
+
+                temperature.text = weather.main.temp.toInt().toString() + " °C"
+                temp_description.text = weather.weather.get(0).description
+                temp_humidity.text = weather.main.humidity.toString() + "% влажности"
+            })
+
         }
     }
 
