@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.wheatherapp.R
 import com.example.wheatherapp.base.BaseFragment
 import com.example.wheatherapp.ui.popup.PopUpFragment
+import com.example.wheatherapp.utils.DateFormatHelper
 import com.example.wheatherapp.utils.Show
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -66,11 +67,13 @@ class MapFragment : BaseFragment(),
                 Glide.with(temp_icon.context).load(iconurl).into(temp_icon)
 
                 if(city_title == null) city_title.text = "нет такого места"
-                else city_title.text = weather.name
+                else city_title.text = DateFormatHelper.showTime(weather.dt.toLong())
 
                 temperature.text = weather.main.temp.toInt().toString() + " °C"
                 temp_description.text = weather.weather.get(0).description
                 temp_humidity.text = weather.main.humidity.toString() + "% влажности"
+
+
             })
 
         }
