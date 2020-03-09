@@ -1,26 +1,12 @@
-package com.example.wheatherapp.model
-
 import com.google.gson.annotations.SerializedName
 
-data class Main(
-	@field:SerializedName("temp")
-    val temp: Double,
+data class Main (
 
-	@field:SerializedName("pressure")
-    val pressure: Double,
-
-	@field:SerializedName("humidity")
-    val humidity: Int,
-
-	@field:SerializedName("temp_min")
-    val tempMin: Double,
-
-	@field:SerializedName("temp_max")
-    val tempMax: Double,
-
-	@field:SerializedName("sea_level")
-    val seaLevel: Double,
-
-	@field:SerializedName("grnd_level")
-    val grndLevel: Double
+	@SerializedName("temp") val temp : Double,
+	@SerializedName("pressure") val pressure : Double,
+	@SerializedName("humidity") val humidity : Int,
+	@SerializedName("temp_min") val temp_min : Double,
+	@SerializedName("temp_max") val temp_max : Double,
+	@SerializedName("sea_level") val sea_level : Double,
+	@SerializedName("grnd_level") val grnd_level : Double
 )

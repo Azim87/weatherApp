@@ -1,17 +1,9 @@
-package com.example.wheatherapp.model
-
 import com.google.gson.annotations.SerializedName
 
-data class Weather(
-    @field:SerializedName("id")
-    val id: Int,
+data class Weather (
 
-    @field:SerializedName("main")
-    val main: String,
-
-    @field:SerializedName("description")
-    val description: String,
-
-    @field:SerializedName("icon")
-    val icon: String
+	@SerializedName("id") val id : Int,
+	@SerializedName("main") val main : String,
+	@SerializedName("description") val description : String,
+	@SerializedName("icon") val icon : String
 )

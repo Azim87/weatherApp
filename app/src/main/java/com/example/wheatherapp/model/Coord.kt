@@ -1,11 +1,7 @@
-package com.example.wheatherapp.model
-
 import com.google.gson.annotations.SerializedName
 
-data class Coord(
-	@field:SerializedName("lon")
-	val lon: Double,
+data class Coord (
 
-	@field:SerializedName("lat")
-	val lat: Double
+	@SerializedName("lon") val lon : Double,
+	@SerializedName("lat") val lat : Double
 )

@@ -1,29 +1,21 @@
 package com.example.wheatherapp.ui.map
 
+import MainWeatherModel
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.wheatherapp.base.SingleLiveEvent
-import com.example.wheatherapp.model.ResponseModel
 import com.example.wheatherapp.repository.WeatherRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
-class MapViewModel constructor(private val repository: WeatherRepository) : ViewModel(){
-
-
-    var weatherData = MutableLiveData<ResponseModel>()
+class MapViewModel (private val repository: WeatherRepository) : ViewModel(){
+    var weatherData = MutableLiveData<MainWeatherModel>()
     val showLoading = MutableLiveData<Boolean>()
 
-
-    fun getRemoteWeatherData(): MutableLiveData<ResponseModel> {
+    fun getRemoteWeatherData(lon: Double, lat: Double, metric: String): MutableLiveData<MainWeatherModel> {
         showLoading.value = true
-
         viewModelScope.launch {
-            weatherData = repository.data
+            weatherData = repository.getWeather(lon, lat, metric)
             showLoading.value = false
         }
         return weatherData

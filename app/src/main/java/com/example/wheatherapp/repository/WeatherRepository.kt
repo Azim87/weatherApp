@@ -1,38 +1,35 @@
 package com.example.wheatherapp.repository
 
-import androidx.lifecycle.LiveData
+import MainWeatherModel
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.wheatherapp.data.remote.RetrofitClient
 import com.example.wheatherapp.data.remote.WeatherApiService
-import com.example.wheatherapp.model.ResponseModel
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WeatherRepository(private var weatherApi: WeatherApiService) : IWeatherRepository {
+class WeatherRepository(private val retrofitClient: RetrofitClient){
+
     private val appKey = "4bb7471659f7cdb381168351ef966d4f"
 
-    val data = MutableLiveData<ResponseModel>()
-
-    override suspend  fun getWeather(): MutableLiveData<ResponseModel> {
-        weatherApi = RetrofitClient.buildService()
-        weatherApi.getWeather(
-            139.01,
-            35.02,
-            "ru",
+    private val data = MutableLiveData<MainWeatherModel>()
+    fun getWeather(lon: Double, lat: Double, metric: String): MutableLiveData<MainWeatherModel> {
+       retrofitClient.buildRetrofit().getWeather(
+            lon,
+            lat,
+            metric,
             appKey
-        ).enqueue(object : Callback<ResponseModel> {
+        ).enqueue(object : Callback<MainWeatherModel> {
             override fun onResponse(
-                call: Call<ResponseModel>,
-                response: Response<ResponseModel>
-            ) {
+                call: Call<MainWeatherModel>,
+                response: Response<MainWeatherModel>) {
                 data.value = response.body()
+                Log.d("ololo", "repo" + response.body())
             }
 
-            override fun onFailure(
-                call: Call<ResponseModel>,
-                t: Throwable
-            ) {
+            override fun onFailure(call: Call<MainWeatherModel>, t: Throwable) {
                 data.value = null
             }
         })
