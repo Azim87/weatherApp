@@ -4,7 +4,7 @@ import MainWeatherModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.wheatherapp.repository.WeatherRepository
+import com.example.wheatherapp.repository.weather.WeatherRepository
 import kotlinx.coroutines.launch
 
 class MapViewModel (private val repository: WeatherRepository) : ViewModel(){

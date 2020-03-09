@@ -38,7 +38,8 @@ android {
             applicationId "com.example.wheatherapp"
             versionCode 21
             versionName "1"
-            buildConfigField "String", "BASE_URL", "\"http://api.openweathermap.org\""
+            buildConfigField "String", "BASE_URL_WEATHER", "\"http://api.openweathermap.org\""
+            buildConfigField "String", "BASE_URL_CITY", "\"https://restcountries.eu\""
             buildConfigField "String", "API_KEY", "\"4bb7471659f7cdb381168351ef966d4f\""
             dimension "mode"
         }

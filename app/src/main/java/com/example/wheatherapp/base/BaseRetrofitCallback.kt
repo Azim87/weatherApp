@@ -7,7 +7,6 @@ import retrofit2.Response
 
 abstract class BaseRetrofitCallback<T> : Callback<T> {
     abstract fun onSuccess(results: T?)
-
     abstract fun onFailure(e: Exception?)
 
     override fun onResponse(call: Call<T>, response: Response<T>) {

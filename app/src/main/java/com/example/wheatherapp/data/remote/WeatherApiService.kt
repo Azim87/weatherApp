@@ -1,8 +1,10 @@
 package com.example.wheatherapp.data.remote
 
 import MainWeatherModel
+import com.example.wheatherapp.model.city.CityModel
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherApiService {
@@ -13,4 +15,7 @@ interface WeatherApiService {
         @Query("metric") metric: String,
         @Query("appid") appKey: String
     ): Call<MainWeatherModel>
+
+    @GET("rest/v2/capital/{city}")
+    fun getCity(@Path("city") capital: String): Call<List<CityModel>>
 }
