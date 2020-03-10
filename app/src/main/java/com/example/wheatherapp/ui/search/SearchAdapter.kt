@@ -9,11 +9,10 @@ import com.example.wheatherapp.R
 import com.example.wheatherapp.model.city.CityModel
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
-    private lateinit var cityList: ArrayList<CityModel>
+    private var cityList: ArrayList<CityModel>? = null
 
     fun setList(list: ArrayList<CityModel>) {
-        cityList.clear()
-        cityList.addAll(list)
+       cityList = list
         notifyDataSetChanged()
     }
 
@@ -23,19 +22,24 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(cityList!![position])
     }
 
     override fun getItemCount(): Int {
-       return 0
+        if (cityList != null) {
+
+            return cityList!!.size
+        }
+        return 0
     }
 
     inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cityTitle: TextView = itemView.findViewById(R.id.city_title)
         val citySubTitle: TextView = itemView.findViewById(R.id.city_sub_title)
 
-        fun bind() {
-
+        fun bind(city: CityModel) {
+            cityTitle.text = city.name
+            citySubTitle.text = city.subregion
         }
     }
 }

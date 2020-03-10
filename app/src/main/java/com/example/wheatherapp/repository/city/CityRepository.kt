@@ -6,25 +6,27 @@ import com.example.wheatherapp.BuildConfig
 import com.example.wheatherapp.base.BaseRetrofitCallback
 import com.example.wheatherapp.data.remote.RetrofitClient
 import com.example.wheatherapp.model.city.CityModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CityRepository(private val retrofitClient: RetrofitClient) {
 
-    private val data = MutableLiveData<List<CityModel>>()
     private val BASE_URL = BuildConfig.BASE_URL_CITY
+    var data = MutableLiveData<List<CityModel>>()
 
     fun getCityByCapital(city: String): MutableLiveData<List<CityModel>> {
         retrofitClient
             .buildRetrofit(BASE_URL)
             .getCity(city)
-            .enqueue(object : BaseRetrofitCallback<List<CityModel>>() {
-                override fun onSuccess(results: List<CityModel>?) {
-                    data.value = results
-                    Log.d("ololo", "city data ${data.value}")
+            .enqueue(object: Callback<List<CityModel>> {
+                override fun onResponse(call: Call<List<CityModel>>, response: Response<List<CityModel>>) {
+                    data.value = response.body()
+                    Log.d("ololo", "repo  "  + data.value)
                 }
 
-
-                override fun onFailure(e: Exception?) {
-
+                override fun onFailure(call: Call<List<CityModel>>, t: Throwable) {
+                    Log.d("ololo", "repo  "  + t.localizedMessage)
                 }
             })
         return data
