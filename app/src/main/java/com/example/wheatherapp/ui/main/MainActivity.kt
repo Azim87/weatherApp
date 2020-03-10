@@ -43,7 +43,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        MapFragment().onBackPress()
-        super.onBackPressed()
+        if (fragmentManager.getBackStackEntryCount() > 1){
+            fragmentManager.popBackStackImmediate()
+            fragmentManager.beginTransaction().commit()
+        } else {
+            finish()
+        }
     }
 }
