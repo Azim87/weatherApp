@@ -17,10 +17,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler"
-        android:elevation="12dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        android:elevation="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,12 +31,12 @@
         android:layout_width="130dp"
         android:layout_height="90dp"
         android:visibility="invisible"
-        app:lottie_autoPlay="true"
-        app:lottie_repeatMode="reverse"
-        app:lottie_repeatCount="100"
-        app:lottie_rawRes="@raw/loading_animation"
         app:layout_constraintBottom_toBottomOf="@+id/search_recycler"
         app:layout_constraintEnd_toEndOf="@+id/search_recycler"
         app:layout_constraintStart_toStartOf="@+id/search_recycler"
-        app:layout_constraintTop_toTopOf="@+id/search_recycler" />
+        app:layout_constraintTop_toTopOf="@+id/search_recycler"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_repeatCount="100"
+        app:lottie_repeatMode="reverse" />
 </androidx.constraintlayout.widget.ConstraintLayout>

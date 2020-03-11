@@ -19,13 +19,13 @@ class CityRepository(private val retrofitClient: RetrofitClient) {
         retrofitClient
             .buildRetrofit(BASE_URL)
             .getCity(city)
-            .enqueue(object: Callback<List<CityModel>> {
-                override fun onResponse(call: Call<List<CityModel>>, response: Response<List<CityModel>>) {
-                    data.value = response.body()
+            .enqueue(object: BaseRetrofitCallback<List<CityModel>>() {
+                override fun onSuccess(results: List<CityModel>?) {
+                  data.value = results
                 }
 
-                override fun onFailure(call: Call<List<CityModel>>, t: Throwable) {
-                    Log.d("ololo", "repo  "  + t.localizedMessage)
+                override fun onFailure(e: Exception?) {
+                   data.value = null
                 }
             })
         return data

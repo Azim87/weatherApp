@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface WeatherApiService {
     @GET("data/2.5/weather")
-     fun getWeather(
+    fun getWeather(
         @Query("lon") longitude: Double,
         @Query("lat") latitude: Double,
         @Query("units") metric: String,
@@ -18,5 +18,5 @@ interface WeatherApiService {
     ): Call<MainWeatherModel>
 
     @GET("rest/v2/capital/{city}")
-    fun getCity(@Path("city") capital: String): Call<List<CityModel>>
+     fun getCity(@Path("city") capital: String): Call<List<CityModel>>
 }

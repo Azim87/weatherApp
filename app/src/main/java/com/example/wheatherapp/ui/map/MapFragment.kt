@@ -18,6 +18,7 @@ import com.example.wheatherapp.utils.Show
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.android.synthetic.main.fragment_popup.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -104,7 +105,13 @@ class MapFragment : BaseFragment(),
                 val iconcode = weather.weather[0].icon;
                 val iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 if (weather != null) {
-                    Glide.with(temp_icon.context).load(iconurl).into(temp_icon)
+                    //Glide.with(temp_icon.context).load(iconurl).into(temp_icon)
+                    Picasso
+                        .get()
+                        .load(iconurl)
+                        .resize(150,150)
+                        .centerCrop()
+                        .into(temp_icon)
                     if (city_title.text == null) city_title.text = "нет такого места"
                     else city_title.text = weather.name
 

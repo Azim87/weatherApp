@@ -1,5 +1,6 @@
 package com.example.wheatherapp.ui.search
 
+import android.content.Intent
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.ProgressBar
@@ -10,6 +11,8 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.wheatherapp.R
 import com.example.wheatherapp.base.BaseFragment
 import com.example.wheatherapp.model.city.CityModel
+import com.example.wheatherapp.ui.cityDetail.CityDetailActivity
+import com.example.wheatherapp.utils.Show
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,10 +39,17 @@ class SearchFragment : BaseFragment() {
 
     private fun initRecycler() {
         search_recycler.apply {
-            searchAdapter = SearchAdapter()
+            searchAdapter = SearchAdapter(this@SearchFragment::onClickItem)
             adapter = searchAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    private fun onClickItem(city: CityModel) {
+        val intent = Intent(context, CityDetailActivity::class.java)
+        intent.putExtra("city", city.flag)
+        startActivity(intent)
+        Show.message(context!!, "" + city.name)
     }
 
     private fun getCityData() {
@@ -68,17 +78,6 @@ class SearchFragment : BaseFragment() {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
-            }
-        })
-    }
-
-    private fun loadCities() {
-        searchViewModel.loading.observe(this@SearchFragment, Observer { isLoading ->
-            if (isLoading != null) {
-                when (isLoading) {
-                    true -> searchProgressBar.visibility = View.VISIBLE
-                    false -> searchProgressBar.visibility = View.INVISIBLE
-                }
             }
         })
     }
