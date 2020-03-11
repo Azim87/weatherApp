@@ -3,20 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp">
-
-    <TextView
-        android:id="@+id/city_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="title" />
+    android:padding="4dp">
 
     <TextView
         android:id="@+id/city_sub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="sub title" />
+        android:text="sub title"
+        android:textColor="@color/centerColor"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/city_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="title"
+        android:textSize="15sp" />
 </LinearLayout>

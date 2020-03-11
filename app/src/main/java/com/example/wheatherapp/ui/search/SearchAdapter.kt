@@ -39,7 +39,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
         fun bind(city: CityModel) {
             cityTitle.text = city.name
-            citySubTitle.text = city.subregion
+            citySubTitle.text = city.capital
         }
     }
 }

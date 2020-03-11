@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.example.wheatherapp.R
 import com.example.wheatherapp.base.BaseFragment
 import com.example.wheatherapp.model.city.CityModel
@@ -15,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : BaseFragment() {
     private val searchViewModel by viewModel<SearchViewModel>()
     private lateinit var searchAdapter: SearchAdapter
-    private lateinit var searchProgressBar: ProgressBar
+    private lateinit var searchProgressBar: LottieAnimationView
 
     companion object {
         fun newInstance(): Fragment {
@@ -31,7 +32,6 @@ class SearchFragment : BaseFragment() {
         searchProgressBar = view.findViewById(R.id.search_progress)
         initRecycler()
         getCityData()
-
     }
 
     private fun initRecycler() {
@@ -43,7 +43,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun getCityData() {
-
+        search_view.queryHint = "Введите название города"
         search_view.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
