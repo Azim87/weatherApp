@@ -12,12 +12,13 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
     private var cityList: ArrayList<CityModel>? = null
 
     fun setList(list: ArrayList<CityModel>) {
-       cityList = list
+        cityList = list
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val view: View = LayoutInflater.from(parent.context!!).inflate(R.layout.item_search, parent, false)
+        val view: View = LayoutInflater.from(parent.context!!)
+            .inflate(R.layout.item_search, parent, false)
         return SearchViewHolder(view)
     }
 
@@ -27,7 +28,6 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     override fun getItemCount(): Int {
         if (cityList != null) {
-
             return cityList!!.size
         }
         return 0

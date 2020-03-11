@@ -22,7 +22,6 @@ class CityRepository(private val retrofitClient: RetrofitClient) {
             .enqueue(object: Callback<List<CityModel>> {
                 override fun onResponse(call: Call<List<CityModel>>, response: Response<List<CityModel>>) {
                     data.value = response.body()
-                    Log.d("ololo", "repo  "  + data.value)
                 }
 
                 override fun onFailure(call: Call<List<CityModel>>, t: Throwable) {

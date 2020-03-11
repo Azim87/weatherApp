@@ -105,12 +105,13 @@ class MapFragment : BaseFragment(),
                 val iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 if (weather != null) {
                     Glide.with(temp_icon.context).load(iconurl).into(temp_icon)
-                    if (city_title == null) city_title.text = "нет такого места"
+                    if (city_title.text == null) city_title.text = "нет такого места"
                     else city_title.text = weather.name
 
                     temperature.text = weather.main.temp.toInt().toString() + " °C"
                     temp_description.text = weather.weather.get(0).description
                     temp_humidity.text = weather.main.humidity.toString() + "% влажности"
+                } else {
                 }
             })
         }
