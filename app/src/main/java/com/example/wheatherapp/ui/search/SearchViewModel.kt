@@ -1,8 +1,6 @@
 package com.example.wheatherapp.ui.search
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wheatherapp.base.SingleLiveEvent
@@ -17,7 +15,6 @@ class SearchViewModel constructor(private val cityRepository: CityRepository) : 
     var cityData = MutableLiveData<List<CityModel>>()
     var loading = SingleLiveEvent<Boolean>()
 
-
     fun getCity(city: String)  {
         loading.value = true
         viewModelScope.launch {
@@ -25,8 +22,7 @@ class SearchViewModel constructor(private val cityRepository: CityRepository) : 
         }
     }
 
-    suspend fun getCityData(city: String) = withContext(Dispatchers.IO) {
+    suspend fun getCityData(city: String) = withContext(Dispatchers.Main) {
         cityData = cityRepository.getCityByCapital(city)
-        loading.postValue(false)
     }
 }
