@@ -17,7 +17,7 @@ class RetrofitClient {
         .build()
         .create(WeatherApiService::class.java)
 
-    val okHttpClient: OkHttpClient
+    private val okHttpClient: OkHttpClient
         get() = OkHttpClient().newBuilder()
             .addInterceptor(requestInterceptor)
             .connectTimeout(40, TimeUnit.SECONDS)
@@ -26,7 +26,7 @@ class RetrofitClient {
             .build()
 
 
-    val requestInterceptor = Interceptor() { chain ->
+    private val requestInterceptor = Interceptor { chain ->
         val url = chain.request()
             .url()
             .newBuilder()
