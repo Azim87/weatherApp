@@ -13,8 +13,7 @@ interface WeatherApiService {
         @Query("lon") longitude: Double,
         @Query("lat") latitude: Double,
         @Query("units") metric: String,
-        @Query("lang") language: String,
-        @Query("appid") appKey: String
+        @Query("lang") language: String
     ): Call<MainWeatherModel>
 
     @GET("rest/v2/capital/{city}")
