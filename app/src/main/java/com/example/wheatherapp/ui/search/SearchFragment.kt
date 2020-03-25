@@ -1,9 +1,9 @@
 package com.example.wheatherapp.ui.search
 
 import android.content.Intent
-import android.os.CountDownTimer
+import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +25,10 @@ class SearchFragment : BaseFragment() {
         fun newInstance(): Fragment {
             return SearchFragment()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun getLayoutId(): Int {
@@ -54,31 +58,30 @@ class SearchFragment : BaseFragment() {
 
     private fun getCityData() {
         search_view.queryHint = "Введите название города"
-        search_view.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
-                searchProgressBar.visibility = View.VISIBLE
-                val timer = object : CountDownTimer(2000, 1000) {
-
-                    override fun onTick(millisUntilFinished: Long) {}
-                    override fun onFinish() {
-                        searchViewModel.getCity(newText)
-                        searchViewModel.cityData.observe(this@SearchFragment,
-                            Observer { data ->
-                                if (data != null) {
-                                    searchAdapter.setList(data as ArrayList<CityModel>)
-                                }
-                            })
-                        searchProgressBar.visibility = View.INVISIBLE
-                    }
-                }
-                timer.start()
-                return true
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
+
+            override fun onQueryTextSubmit(cityQuery: String): Boolean {
+                initViewModel(cityQuery)
+                return true
+            }
         })
+    }
+
+    private fun initViewModel(cityQuery: String) {
+        searchViewModel.cityList.observe(this@SearchFragment, Observer { newCityList ->
+            searchAdapter.setList(newCityList as ArrayList<CityModel>)
+        })
+
+        searchViewModel.showLoading.observe(this, Observer { showLoading ->
+            searchProgressBar.visibility = if (showLoading) View.VISIBLE else View.GONE
+        })
+
+        searchViewModel.showError.observe(this, Observer { showError ->
+            Show.message(context!!, showError)
+        })
+        searchViewModel.loadCities(cityQuery)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.wheatherapp.data.remote
 
 import com.example.wheatherapp.BuildConfig
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -11,9 +12,10 @@ class RetrofitClient {
     private val APP_KEY = BuildConfig.API_KEY
 
     fun buildRetrofit(baseUrl: String): WeatherApiService = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .baseUrl(baseUrl)
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(WeatherApiService::class.java)
 

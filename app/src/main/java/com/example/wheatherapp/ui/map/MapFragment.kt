@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.example.wheatherapp.R
 import com.example.wheatherapp.base.BaseFragment
 import com.example.wheatherapp.ui.popup.PopUpFragment
+import com.example.wheatherapp.utils.NetworkHelper
 import com.example.wheatherapp.utils.Show
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,15 +30,16 @@ class MapFragment : BaseFragment(),
     OnMapReadyCallback,
     GoogleMap.OnCameraMoveListener {
 
-    private val mapViewModel by viewModel<MapViewModel>()
-    private lateinit var mMap: GoogleMap
-    private var name: String? = null
-
     companion object {
+        private const val REQUEST_CODE = 101
         fun newInstance(): Fragment {
             return MapFragment()
         }
     }
+
+    private val mapViewModel by viewModel<MapViewModel>()
+    private lateinit var mMap: GoogleMap
+    private var name: String? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_map
@@ -60,7 +62,10 @@ class MapFragment : BaseFragment(),
         ) {
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
+                requestPermissions(
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_CODE
+                )
             }
         }
     }
@@ -72,7 +77,7 @@ class MapFragment : BaseFragment(),
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            101 -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            REQUEST_CODE -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(context, "Permisson granted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(
@@ -90,7 +95,7 @@ class MapFragment : BaseFragment(),
                 MarkerOptions()
                     .position(location)
                     .title("My marker")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     .draggable(true)
             )
             .showInfoWindow()
@@ -116,44 +121,60 @@ class MapFragment : BaseFragment(),
     }
 
     @SuppressLint("SetTextI18n")
+    private fun initViewModel(location: LatLng) {
+        mMap.setOnInfoWindowClickListener {
+            initPopUpFragment()
+
+            mapViewModel.loadWeatherData(
+                location.longitude,
+                location.latitude,
+                "Metric"
+            )
+
+            mapViewModel.weatherList.observe(this, Observer { weather ->
+                val iconCode = weather.weather[0].icon;
+                val iconUrl = "http://openweathermap.org/img/w/$iconCode.png";
+                if (weather != null) {
+                    Picasso
+                        .get()
+                        .load(iconUrl)
+                        .resize(150, 150)
+                        .centerCrop()
+                        .into(temp_icon)
+                    if (city_title.text == null) city_title.text = "нет такого места"
+                    else city_title.text = weather.name
+
+                    temperature.text = weather.main.temp.toInt().toString() + " °C"
+                    temp_description.text = weather.weather.get(0).description
+                    temp_humidity.text = weather.main.humidity.toString() + "% влажности"
+                }
+            })
+
+            mapViewModel.showLoading.observe(this, Observer { showLoading ->
+
+            })
+
+            mapViewModel.showError.observe(this, Observer {showError ->
+                Show.message(context!!, showError)
+            })
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.setOnMapClickListener { location ->
-            getLocationPermission()
-            addMarkerOnMapClick(location)
-            animateCamera(location)
-            mMap.setOnInfoWindowClickListener {
-                initPopUpFragment()
-                mapViewModel.getRemoteWeatherData(
-                    location.longitude,
-                    location.latitude,
-                    "Metric"
-                )
-
-                mapViewModel.weatherData.observe(this, Observer { weather ->
-                    val iconcode = weather.weather[0].icon;
-                    val iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
-                    if (weather != null) {
-                        Picasso
-                            .get()
-                            .load(iconurl)
-                            .resize(150, 150)
-                            .centerCrop()
-                            .into(temp_icon)
-                        if (city_title.text == null) city_title.text = "нет такого места"
-                        else city_title.text = weather.name
-
-                        temperature.text = weather.main.temp.toInt().toString() + " °C"
-                        temp_description.text = weather.weather.get(0).description
-                        temp_humidity.text = weather.main.humidity.toString() + "% влажности"
-                    }
-                })
+            if(!NetworkHelper().isOnline()) {
+                Show.message(context!!, "check internet connection")
+            } else {
+                getLocationPermission()
+                addMarkerOnMapClick(location)
+                animateCamera(location)
+                initViewModel(location)
             }
-
         }
     }
 
     override fun onCameraMove() {
     }
-
 }

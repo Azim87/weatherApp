@@ -1,33 +1,8 @@
 package com.example.wheatherapp.repository.city
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.example.wheatherapp.BuildConfig
-import com.example.wheatherapp.base.BaseRetrofitCallback
-import com.example.wheatherapp.data.remote.RetrofitClient
 import com.example.wheatherapp.model.city.CityModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.wheatherapp.utils.UseCaseResult
 
-class CityRepository(private val retrofitClient: RetrofitClient) {
-
-    private val BASE_URL = BuildConfig.BASE_URL_CITY
-    var data = MutableLiveData<List<CityModel>>()
-
-    fun getCityByCapital(city: String): MutableLiveData<List<CityModel>> {
-        retrofitClient
-            .buildRetrofit(BASE_URL)
-            .getCity(city)
-            .enqueue(object: BaseRetrofitCallback<List<CityModel>>() {
-                override fun onSuccess(results: List<CityModel>?) {
-                  data.value = results
-                }
-
-                override fun onFailure(e: Exception?) {
-                   data.value = null
-                }
-            })
-        return data
-    }
+interface CityRepository {
+    suspend fun getCity(city: String) : UseCaseResult<List<CityModel>>
 }

@@ -1,38 +1,12 @@
 package com.example.wheatherapp.repository.weather
 
 import MainWeatherModel
-import androidx.lifecycle.MutableLiveData
-import com.example.wheatherapp.BuildConfig
-import com.example.wheatherapp.base.BaseRetrofitCallback
-import com.example.wheatherapp.data.remote.RetrofitClient
+import com.example.wheatherapp.utils.UseCaseResult
 
-class WeatherRepository(private val retrofitClient: RetrofitClient) {
-
-    private val appKey = BuildConfig.API_KEY
-    private val BASE_URL = BuildConfig.BASE_URL_WEATHER
-
-    private val data = MutableLiveData<MainWeatherModel>()
-    fun getWeather(
-        lon: Double,
-        lat: Double,
+interface WeatherRepository {
+    suspend fun getWeather(
+        longitude: Double,
+        latitude: Double,
         metric: String
-    ): MutableLiveData<MainWeatherModel> {
-        retrofitClient
-            .buildRetrofit(BASE_URL)
-            .getWeather(
-                lon,
-                lat,
-                metric,
-                "ru"
-            ).enqueue(object : BaseRetrofitCallback<MainWeatherModel>() {
-                override fun onSuccess(results: MainWeatherModel?) {
-                    data.value = results
-                }
-
-                override fun onFailure(e: Exception?) {
-                    onFailure(e)
-                }
-            })
-        return data
-    }
+    ): UseCaseResult<MainWeatherModel>
 }

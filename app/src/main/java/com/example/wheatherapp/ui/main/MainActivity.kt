@@ -14,15 +14,14 @@ import com.example.wheatherapp.utils.NetworkChangeReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mBroadcastReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpBottomNavigationView()
         createFragment(MapFragment.newInstance())
-        mBroadcastReceiver = NetworkChangeReceiver()
         startService(Intent(this@MainActivity, NetworkService::class.java))
+
     }
 
     private fun setUpBottomNavigationView() {
